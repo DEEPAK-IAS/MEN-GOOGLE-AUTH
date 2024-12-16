@@ -2,7 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const mongodb = require("./db");
 const authRoute = require("./routes/auth.route");
-const passport = require("./config/googleAuth")
+const googleRoute = require("./routes/google.route")
+const passport = require("./config/google.config")
 require("dotenv").config();
 const app = express();
 
@@ -21,33 +22,13 @@ app.use(passport.session());
 
 
 app.use("/api/v1/auth",authRoute);
+app.use("/google",googleRoute);
 
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
-
-app.get("/" , (req,res) => {
-  res.send('<a href="/auth/google">Authenticate with google</a>');
+app.get("/",(req, res) => {
+  res.end("<a href='/google'>welcome</a>")
 })
 
 
-app.get("/auth/google", passport.authenticate('google',{ scope: ['email', 'profile']}));
-
-app.get("/google/callback",
-  passport.authenticate('google',{
-    successRedirect: '/protected',
-    // failureRedirect: '/auth/failure'
-  })
-)
-
-
-// app.get("/auth/failure", (req,res) => {
-//   res.send("something went wrong");
-// })
-app.get("/protected", isLoggedIn, (req,res) => {
-  console.log(req.user);
-  res.send(`Hello, ${req.user}`);
-})
 
 
 app.use((err, req, res, next) => {
