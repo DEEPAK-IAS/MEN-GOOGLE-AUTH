@@ -5,23 +5,29 @@ const router = express.Router();
 
 // Middleware to check if user is logged in
 
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
+
 
 router.get("/", passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 router.get("/callback",
   passport.authenticate('google', {
-    successRedirect: '/google/protected',
-    // failureRedirect: '/auth/failure' 
+    successRedirect: '/api/v1/auth/google',
+    failureRedirect: '/api/v1/auth/failure' 
   })
 );
 
-// Protected route
-router.get("/protected", isLoggedIn, (req, res) => {
-  console.log(req.user);
-  res.send(`Hello, ${req.user.displayName}`);
+router.get("/logout", (req, res) => {
+  if (!req.session) {
+    console.error('Session not found.');
+    return res.status(400).send('No session found.');
+  }
+  req.session.destroy(function(err) {
+    console.log("destroy")
+    res.clearCookie("connect.sid");
+    console.log(req.session);
+    // res.redirect("/");
+  })
 });
+
 
 module.exports = router;

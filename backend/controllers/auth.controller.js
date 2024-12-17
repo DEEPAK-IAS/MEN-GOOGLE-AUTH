@@ -69,11 +69,38 @@ async function signOut(req, res, next) {
   }
 }
 
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
 
+
+async function googleSignin(req, res, next) {
+  try {
+    console.log(req.session);
+    res.status(200).json({
+      name: req.user.displayName,
+        data: req.user
+    })
+  } catch(err) {
+    next(err);
+  }
+}
+
+// router.get("/protected", isLoggedIn, (req, res) => {
+//   // console.log(req.user);
+//   // res.send(`Hello, ${req.user.displayName}`);
+//   console.log(req.session);
+//   res.status(200).json({
+//     name: req.user.displayName,
+//     data: req.user
+//   })
+// });
 
 
 module.exports = {
   signUP,
   signIn,
-  signOut
+  signOut,
+  isLoggedIn,
+  googleSignin,
 }
