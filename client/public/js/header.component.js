@@ -3,9 +3,12 @@ const logoutBTN = document.querySelector("#google-logout");
 
 
 logoutBTN.addEventListener("click", async(e) => {
-  location.href = "/google/logout";
+  location.href = "/api/v1/auth/logout";
 })
 
-loginBTN.addEventListener("click", (event) => {
-  location.href = "/google";
+loginBTN.addEventListener("click", async(event) => {
+  window.location.href = "/google";
+
 })
+
+

@@ -14,6 +14,10 @@ const userShcema = mongoose.Schema({
     type: String,
     required: true,
   },
+  avatar: {
+    type: String,
+    default: null,
+  },
   isBlocked: {
     type: Boolean,
     default: false,

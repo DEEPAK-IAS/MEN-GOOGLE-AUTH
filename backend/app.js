@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 const mongodb = require("./db");
@@ -16,6 +17,9 @@ const INDEX_PAGE = fs.readFileSync(path.join(__dirname,"../client","views","inde
 
 
 app.use(express.json());
+app.use(cors({
+  credentials: true,
+}));
 app.use(express.static(path.join(__dirname,"../client/public")));
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
@@ -31,13 +35,9 @@ app.use("/api/v1/auth",authRoute);
 app.use("/google",googleRoute);
 
 app.get("/",(req, res) => {
-  res.end(INDEX_PAGE);
+  res.end(INDEX_PAGE)
+
 })
-
-
-
-
-
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500; 
@@ -49,5 +49,5 @@ app.use((err, req, res, next) => {
   });
 })
 
-const PORT = process.env.PROT || 3000
+const PORT = process.env.PROT || 3000;
 app.listen(PORT, () => console.log(`server running on port no ${PORT}`));

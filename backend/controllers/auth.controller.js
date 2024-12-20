@@ -42,9 +42,11 @@ async function signIn(req, res, next) {
 
     const access_token = jwt.sign({id: user.id},process.env.JWT_SECRET_KEY);
 
+    req.session.connect.sid = access_token;
+
     const {password:_, ...rest} = user._doc;
 
-    res.status(200).cookie("user_auth_access_token", access_token, {httpOnly: true}).json({
+    res.status(200).json({
       success: true,
       data: {
         user: rest
@@ -56,14 +58,18 @@ async function signIn(req, res, next) {
 }
 
 
-
-
 async function signOut(req, res, next) {
   try {
-    res.status(200).clearCookie("user_auth_access_token").json({
-      success: true,
-      message: "User has been logged out"
-    });
+    if (!req.session) {
+      console.error('Session not found.');
+      return res.status(400).send('No session found.');
+    }
+    req.session.destroy(function(err) {
+      res.status(200).clearCookie("connect.sid").json({
+        success: true,
+        message: "your session has expire"
+      })
+    })
   } catch(err) {
     next(err);
   }
@@ -75,27 +81,9 @@ function isLoggedIn(req, res, next) {
 
 
 async function googleSignin(req, res, next) {
-  try {
-    console.log(req.session);
-    res.status(200).json({
-      name: req.user.displayName,
-        data: req.user
-    })
-  } catch(err) {
-    next(err);
-  }
+  console.log(req.user);
 }
-
-// router.get("/protected", isLoggedIn, (req, res) => {
-//   // console.log(req.user);
-//   // res.send(`Hello, ${req.user.displayName}`);
-//   console.log(req.session);
-//   res.status(200).json({
-//     name: req.user.displayName,
-//     data: req.user
-//   })
-// });
-
+ 
 
 module.exports = {
   signUP,

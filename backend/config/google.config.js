@@ -1,4 +1,5 @@
 const passport = require("passport");
+const User = require("../models/user.model");
 require("dotenv").config();
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
@@ -8,8 +9,15 @@ passport.use(new GoogleStrategy({
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
     passReqToCallback: true
   },
-  function(request, accessToken, refreshToken, profile, done) {
-    return done(null, profile);
+  async function(request, accessToken, refreshToken, profile, done) {
+    const newUser =  await new User({
+      ObjectId: profile.id,
+      username: profile.displayName,
+      email: profile.emails[0].value, // Assuming email exists
+      password: Math.random().toString(36).slice(-8) + Math.random().toString(36).toUpperCase().slice(-4),
+      avatar: profile.photos[0].value,
+    }).save();
+    return done(null, newUser);
   }
 ));
 
