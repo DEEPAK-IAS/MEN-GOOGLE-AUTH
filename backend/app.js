@@ -36,7 +36,6 @@ app.use("/google",googleRoute);
 
 app.get("/",(req, res) => {
   res.end(INDEX_PAGE)
-
 })
 
 app.use((err, req, res, next) => {
