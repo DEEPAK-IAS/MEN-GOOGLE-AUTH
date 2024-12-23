@@ -3,7 +3,9 @@ const logoutBTN = document.querySelector("#google-logout");
 
 
 logoutBTN.addEventListener("click", async(e) => {
-  location.href = "/api/v1/auth/logout";
+  const res = await fetch("/api/v1/auth/signout");
+  const data = await res.json();
+  console.log(data);
 })
 
 loginBTN.addEventListener("click", async(event) => {

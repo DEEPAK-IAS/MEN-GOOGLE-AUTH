@@ -1,8 +1,9 @@
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+require("dotenv").config();
 const User = require("../models/user.model");
 const errorHandler = require("../utils/errorHandler")
+
 
 
 async function signUP(req,res,next) {
@@ -32,21 +33,14 @@ async function signUP(req,res,next) {
 
 async function signIn(req, res, next) {
   try {
-
     const {email, password} = req.body;
     const user = await User.findOne({email: email});
     if(!user) return next(errorHandler(404,"user not found..."));
-
     const isValidPassword = bcryptjs.compareSync(password, user.password);
     if(!isValidPassword) return next(errorHandler(401,"Unauthorized..."));
-
     const access_token = jwt.sign({id: user.id},process.env.JWT_SECRET_KEY);
-
-    req.session.connect.sid = access_token;
-
     const {password:_, ...rest} = user._doc;
-
-    res.status(200).json({
+    res.cookie("access_token",req.user,{httpOnly: true}).status(200).json({
       success: true,
       data: {
         user: rest
@@ -58,6 +52,7 @@ async function signIn(req, res, next) {
 }
 
 
+
 async function signOut(req, res, next) {
   try {
     if (!req.session) {
@@ -65,7 +60,7 @@ async function signOut(req, res, next) {
       return res.status(400).send('No session found.');
     }
     req.session.destroy(function(err) {
-      res.status(200).clearCookie("connect.sid").json({
+      res.status(200).clearCookie("access_token").json({
         success: true,
         message: "your session has expire"
       })
@@ -75,14 +70,19 @@ async function signOut(req, res, next) {
   }
 }
 
+
+
 function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
 }
 
 
+
 async function googleSignin(req, res, next) {
-  console.log(req.user);
+  const access_token = jwt.sign({id: req.user._id},process.env.JWT_SECRET_KEY);
+  res.cookie("access_token",access_token,{httpOnly: true}).redirect("/");
 }
+
  
 
 module.exports = {

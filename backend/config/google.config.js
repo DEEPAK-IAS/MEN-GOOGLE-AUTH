@@ -1,4 +1,5 @@
 const passport = require("passport");
+const bcryptjs = require("bcryptjs");
 const User = require("../models/user.model");
 require("dotenv").config();
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
@@ -14,7 +15,7 @@ passport.use(new GoogleStrategy({
       ObjectId: profile.id,
       username: profile.displayName,
       email: profile.emails[0].value, // Assuming email exists
-      password: Math.random().toString(36).slice(-8) + Math.random().toString(36).toUpperCase().slice(-4),
+      password: bcryptjs.hashSync(Math.random().toString(36).slice(-8) + Math.random().toString(36).toUpperCase().slice(-4),10),
       avatar: profile.photos[0].value,
     }).save();
     return done(null, newUser);
