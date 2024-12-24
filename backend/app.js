@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const mongodb = require("./db");
 const authRoute = require("./routes/auth.route");
+const userRoute = require("./routes/user.route");
 const googleRoute = require("./routes/google.route")
 const passport = require("./config/google.config")
 require("dotenv").config();
@@ -32,6 +33,7 @@ app.use(passport.session());
 
 
 app.use("/api/v1/auth",authRoute);
+app.use("/api/v1/user",userRoute);
 app.use("/google",googleRoute);
 
 app.get("/",(req, res) => {
