@@ -35,12 +35,12 @@ async function signIn(req, res, next) {
   try {
     const {email, password} = req.body;
     const user = await User.findOne({email: email});
-    if(!user) return next(errorHandler(404,"user not found..."));
+    if(!user) return next(errorHandler(404, "user not found..."));
     const isValidPassword = bcryptjs.compareSync(password, user.password);
-    if(!isValidPassword) return next(errorHandler(401,"Unauthorized..."));
-    const access_token = jwt.sign({id: user.id},process.env.JWT_SECRET_KEY);
+    if(!isValidPassword) return next(errorHandler(401, "Unauthorized..."));
+    const access_token = jwt.sign({id: user.id}, process.env.JWT_SECRET_KEY);
     const {password:_, ...rest} = user._doc;
-    res.cookie("access_token",req.user,{httpOnly: true}).status(200).json({
+    res.cookie("access_token", access_token, {httpOnly: true}).status(200).json({
       success: true,
       data: {
         user: rest
@@ -80,10 +80,15 @@ function isLoggedIn(req, res, next) {
 
 async function googleSignin(req, res, next) {
   const access_token = jwt.sign({id: req.user._id},process.env.JWT_SECRET_KEY);
-  res.cookie("access_token",access_token,{httpOnly: true}).redirect("/");
+  const {password:_, ...userInfo} = req.user;
+  console.log(typeof userInfo)
+  res.cookie("access_token", access_token)
+     .cookie("userInfo", JSON.stringify(userInfo))
+     .redirect("/");
 }
 
- 
+
+
 
 module.exports = {
   signUP,

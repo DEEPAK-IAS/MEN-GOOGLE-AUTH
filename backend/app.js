@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const fs = require("fs");
 const path = require("path");
 const mongodb = require("./db");
@@ -18,9 +19,11 @@ const INDEX_PAGE = fs.readFileSync(path.join(__dirname,"../client","views","inde
 
 
 app.use(express.json());
-app.use(cors({
-  credentials: true,
-}));
+const corsOptions = {
+  origin: 'http://localhost:3000', // Or your frontend's domain
+  credentials: true, // Important for cookies and sessions
+};
+app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname,"../client/public")));
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
@@ -30,6 +33,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser());
 
 
 app.use("/api/v1/auth",authRoute);
