@@ -5,12 +5,12 @@ const pages = ["home", "signin", "signup", "show"];
 
 module.exports = {
   entry: pages.reduce((entries, page) => {
-    entries[page] = `./client/src/js/${page}.js`;
+    entries[page] = `./src/js/${page}.js`;
     return entries;
   }, {}),
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'client', 'dist'),
+    path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
   module: {
@@ -30,14 +30,14 @@ module.exports = {
     ...pages.map(
       (page) =>
         new HtmlWebpackPlugin({
-          template: `./client/src/templates/${page}.html`,
+          template: `./src/templates/${page}.html`,
           filename: `${page}.html`,
           chunks: [page],
         })
     ),
   ],
   devServer: {
-    static: path.resolve(__dirname, "client", "dist"),
+    static: path.resolve(__dirname, "dist"),
     port: 3000,
     open: true, 
     hot: true,

@@ -6,21 +6,21 @@
  * or disable the default devtool with "devtool: false".
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
-(self["webpackChunkmen_google_auth"] = self["webpackChunkmen_google_auth"] || []).push([["signin"],{
+(self["webpackChunkclient"] = self["webpackChunkclient"] || []).push([["signin"],{
 
-/***/ "./client/src/js/signin.js":
-/*!*********************************!*\
-  !*** ./client/src/js/signin.js ***!
-  \*********************************/
+/***/ "./src/js/signin.js":
+/*!**************************!*\
+  !*** ./src/js/signin.js ***!
+  \**************************/
 /***/ (() => {
 
-eval("\n\n//# sourceURL=webpack://men-google-auth/./client/src/js/signin.js?");
+eval("\n\n//# sourceURL=webpack://client/./src/js/signin.js?");
 
 /***/ })
 
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ var __webpack_exports__ = (__webpack_exec__("./client/src/js/signin.js"));
+/******/ var __webpack_exports__ = (__webpack_exec__("./src/js/signin.js"));
 /******/ }
 ]);
