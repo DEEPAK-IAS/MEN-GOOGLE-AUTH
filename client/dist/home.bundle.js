@@ -15,7 +15,7 @@
   \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _styles_home_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../styles/home.css */ \"./src/styles/home.css\");\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  const exploreButton = document.querySelector('.btn');\n  exploreButton.addEventListener('click', () => {\n    document.body.style.background = 'red';\n  });\n});\n\n//# sourceURL=webpack://client/./src/js/home.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _styles_home_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../styles/home.css */ \"./src/styles/home.css\");\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  const exploreButton = document.querySelector('.btn');\n  exploreButton.addEventListener('click', () => {\n    location.href = \"/signin\";\n  });\n});\n\n//# sourceURL=webpack://client/./src/js/home.js?");
 
 /***/ }),
 
