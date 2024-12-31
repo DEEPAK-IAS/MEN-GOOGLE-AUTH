@@ -33,7 +33,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "../client", "dist")));
+app.use(express.static(path.join(__dirname, "../client/dist")));
 app.use("/api/v1/auth",authRoute);
 app.use("/api/v1/user",userRoute);
 app.use("/google",googleRoute);

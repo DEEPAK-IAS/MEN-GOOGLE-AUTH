@@ -9,7 +9,6 @@ const errorHandler = require("../utils/errorHandler")
 async function signUP(req,res,next) {
   try {
     const {username, email, password, avatar} = req.body;
-    console.log(avatar);
     const hashedPassword = bcryptjs.hashSync(password,10);
     const newUser = await new User({
       username: username,
@@ -75,13 +74,7 @@ async function signOut(req, res, next) {
 
 
 function isLoggedIn(req, res, next) {
-  if(!req.user) {
-    res.status(401).json({
-      success: false,
-      message: "Unauthorized"
-    })
-  }
-  next();
+  req.user ? next() : req.sendStatus(401);
 }
 
 
@@ -89,8 +82,7 @@ function isLoggedIn(req, res, next) {
 async function googleSignin(req, res, next) {
   const access_token = jwt.sign({id: req.user._id},process.env.JWT_SECRET_KEY);
   const {password:_, ...userInfo} = req.user;
-  console.log(typeof userInfo)
-  res.cookie("access_token", access_token)
+  res.status(200).cookie("access_token", access_token)
      .cookie("userInfo", JSON.stringify(userInfo))
      .redirect("/");
 }

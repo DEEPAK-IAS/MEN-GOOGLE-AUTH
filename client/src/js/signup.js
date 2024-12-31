@@ -12,18 +12,17 @@ import {
   validateEmailAndUpdateUI,
   validatePasswordAndUpdateUI,
 } from "./utils/userInterface.js";
-
+console.log(hideIcon);
 const userIMG = document.getElementById("user-image");
 const cameraIconDiv = document.querySelector(".camera-icon");
 const imgFileInput = document.getElementById("file-input");
+const submitBTN = document.querySelector("#submit-btn");
 const signinFrom = document.forms[0];
-const googleIcon = signinFrom.querySelector("#google-icon");
+const googleIcon = document.querySelector("#google-icon");
 const eyeIcon = signinFrom.querySelector("#eye-icon");
 const nameInput = signinFrom.querySelector("#name");
 const emailInput = signinFrom.querySelector("#email");
 const passwordInput = signinFrom.querySelector("#password");
-const submitBTN = signinFrom.querySelector("#submit-btn");
-
 
 signinFrom.reset();
 eyeIcon.src = showIcon;
@@ -56,7 +55,9 @@ imgFileInput.addEventListener("change", async () => {
 
 submitBTN.addEventListener("click", async (e) => {
   e.preventDefault();
+  console.log("Button clicked");
   try {
+    console.log("Starting request");
     const formData = new FormData();
     const file = imgFileInput.files[0];
     formData.append("avatar", file);
@@ -74,7 +75,7 @@ submitBTN.addEventListener("click", async (e) => {
         username: nameInput.value.trim(),
         email: emailInput.value.trim(),
         password: passwordInput.value.trim(),
-        avatar: data.file.originalname,
+        avatar: data.file.downloadURL,
       }),
     });
     const resData = await res.json();
