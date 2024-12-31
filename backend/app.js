@@ -9,40 +9,35 @@ const authRoute = require("./routes/auth.route");
 const userRoute = require("./routes/user.route");
 const googleRoute = require("./routes/google.route")
 const passport = require("./config/google.config")
+const pageRoute = require("./routes/page.route");
 require("dotenv").config();
 const app = express();
 
 mongodb.connect();
 
-const HEADER_PAGE = fs.readFileSync(path.join(__dirname,"../client","views","components","header.component.html"),"utf-8")
-const INDEX_PAGE = fs.readFileSync(path.join(__dirname,"../client","views","index.html"),"utf-8").replace("{{HEADER}}",HEADER_PAGE);
-
-
 app.use(express.json());
-const corsOptions = {
-  origin: 'http://localhost:3000', // Or your frontend's domain
-  credentials: true, // Important for cookies and sessions
-};
-app.use(cors(corsOptions));
-app.use(express.static(path.join(__dirname,"../client/public")));
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true
+}));
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: false, 
   saveUninitialized: true,
-  cookie: { secure: false },     
+  cookie: { 
+    secure: false  
+  },     
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
-
-
+app.use(express.static(path.join(__dirname, "../client", "dist")));
 app.use("/api/v1/auth",authRoute);
 app.use("/api/v1/user",userRoute);
 app.use("/google",googleRoute);
-
-app.get("/",(req, res) => {
-  res.end(INDEX_PAGE)
-})
+app.use("/", pageRoute);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500; 

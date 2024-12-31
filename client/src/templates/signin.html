@@ -6,31 +6,35 @@
     <title>Sign-In</title>
 </head>
 <body>
-    <div class="container">
-        <form class="form" id="signinForm">
+  {{HEADER}}
+    <div class="main-container">
+      <div class="container">
+        <form class="form" id="signinForm" autocomplete="off">
             <h1>Sign In</h1>
             <div class="input-group-container">
               <div class="input-group">
-                <input type="text" id="username" required>
-                <label for="username">Username</label>
+                <input type="text" id="email" required>
+                <label for="email">Email</label>
                 <div class="err-element"></div>
-            </div>
-            <div class="input-group">
-                <input type="password" id="password" required maxlength="25">
+              </div>
+              <div class="input-group">
+                <input type="password" id="password" required maxlength="22">
                 <label for="password">Password</label>
                 <div class="err-element"></div>
-            </div>
-            <div class="handle-password-group">
-              <input type="checkbox" id="remember-me"> <label for="remember-me">RememberMe</label>
-            </div>
+                <img src="" alt="" id="eye-icon">
+              </div>
+              <div class="handle-password-group">
+                <input type="checkbox" id="remember-me"> <label for="remember-me">RememberMe</label>
+              </div>
             </div>
             <button type="submit" class="btn">Sign In</button>
             <a class="btn" id="google-sign-in" href="/google">
-              <img src="../asserts/images/google-icon.png" alt="google" id="google-icon"> 
+              <img src="" alt="google" id="google-icon"> 
               Google
             <a>
             <div class="message">Don't have an Account <a href="/signup">Signup</a></div>
         </form>
+    </div>
     </div>
 </body>
 </html>

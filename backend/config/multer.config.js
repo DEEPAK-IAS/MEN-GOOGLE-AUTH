@@ -1,27 +1,16 @@
-import multer from "multer";
+const path = require("path");
+const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null,"./uploads/images");
-  },
-  filename: function(req, file, cb) {
-    cb(null, file.originalname);
+  destination: path.join(__dirname, "../uploads"),
+  filename: function (req, file, cb) {
+    const uniqueName = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueName);
   }
 })
 
-const allowedTypes = ["image/jpeg","image/png","image/jpg"];
-const fileFilter = (req, file, cb) => {
-  if(!allowedTypes.includes(file.mimetype)) {
-    const err = new multer.MulterError("LIMIT_UNEXPECTED_FILE",file.fieldname);
-    err.message = "invalid file type, only jpeg,jpg,png are allowed";
-    return cb(err,false);
-  }
-  cb(null,true);
-};
-
 const upload = multer({
-  storage,
-  fileFilter
-});
+  storage: storage
+}).single("avatar");
 
-export default upload;
+module.exports = upload;

@@ -1,6 +1,7 @@
 const bcryptjs = require("bcryptjs");
 const errHandler = require("../utils/errorHandler");
 const User = require("../models/user.model");
+const upload = require("../config/multer.config.js");
 
 
 
@@ -93,10 +94,28 @@ async function deleteUser(req, res, next) {
 }
 
 
+async function uploadAvatar(req, res, next) {
+  upload(req, res, (err) => {
+    if (err) return next(errHandler(500, err.message));
+    if (req.file == undefined) return next(errHandler(400, "No File Selected"));
+    const { originalname, filename} = req.file;
+    const downloadURL = `/api/v1/user/avatar/${filename.split("-")[0]}`;
+    res.status(200).json({
+      success: true,
+      message: "File uploaded successfully",
+      file: {
+        originalname: originalname,
+        downloadURL: downloadURL
+      }
+    });
+  });
+} 
+
 
 module.exports = {
   updateUser,
   deleteUser,
   getUsers,
   getSingleUser,
+  uploadAvatar
 };

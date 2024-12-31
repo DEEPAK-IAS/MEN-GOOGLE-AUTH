@@ -8,12 +8,14 @@ const errorHandler = require("../utils/errorHandler")
 
 async function signUP(req,res,next) {
   try {
-    const {username, email, password} = req.body;
+    const {username, email, password, avatar} = req.body;
+    console.log(avatar);
     const hashedPassword = bcryptjs.hashSync(password,10);
     const newUser = await new User({
       username: username,
       email: email,
       password: hashedPassword,
+      avatar: avatar,
     }).save();
     const {password:_,...rest} = newUser._doc;
     res.status(200).json({
@@ -73,7 +75,13 @@ async function signOut(req, res, next) {
 
 
 function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
+  if(!req.user) {
+    res.status(401).json({
+      success: false,
+      message: "Unauthorized"
+    })
+  }
+  next();
 }
 
 

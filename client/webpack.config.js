@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const pages = ["home", "signin", "signup", "show"];
+const pages = ["home", "signin", "signup", "show", "header.component"];
 
 module.exports = {
   entry: pages.reduce((entries, page) => {
@@ -11,7 +11,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: 'assets/images/[name][ext]',
+    assetModuleFilename: 'assets/[name][ext]',
     clean: true,
   },
   module: {
