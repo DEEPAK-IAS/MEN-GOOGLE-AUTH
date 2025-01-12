@@ -1,7 +1,9 @@
 import "../styles/signin.css";
+import "../styles/header.component.css";
+import loadHeader from "./header.component";
 import googleIMG from "../assets/images/google-icon.png";
-import showIcon from "../assets/images/icons/view.png";
-import hideIcon from "../assets/images/icons/hide.png";
+import showIcon from "../assets/images/view.png";
+import hideIcon from "../assets/images/hide.png";
 import { addValidationListeners } from "./utils/common.js";
 import { 
   toggleIcon, 
@@ -15,7 +17,9 @@ const googleIcon = signinFrom.querySelector("#google-icon")
 const eyeIcon = signinFrom.querySelector("#eye-icon");
 const emailInput = signinFrom.querySelector("#email");
 const passwordInput = signinFrom.querySelector("#password");
+const submitBTN = signinFrom.querySelector("#submit-btn");
 
+loadHeader();
 signinFrom.reset();
 googleIcon.src = googleIMG;
 eyeIcon.src = showIcon;
@@ -29,7 +33,22 @@ eyeIcon.addEventListener("click", (e) => {
   
 })
 
-document.getElementById('signinForm').addEventListener('submit', function (e) {
+submitBTN.addEventListener("click",  async(e) => {
   e.preventDefault();
-  alert('Sign-in successful!');
+  const res = await fetch("/api/v1/auth/signin", {
+    method: "POST", 
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: emailInput.value,
+      password: passwordInput.value,
+    }),
+  });
+
+  const data = await res.json();
+  console.log(data);
+  if(data.success == true) {
+    location.href = "/";
+  }
 });

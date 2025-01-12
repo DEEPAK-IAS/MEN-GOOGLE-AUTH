@@ -11,12 +11,10 @@ export function toggleIcon(imgElement, oldPath, newPath) {
     imgElement.src = oldPath;
 }
 
-
 export function toggleType(element, oldType, newType) {
   if (element == undefined || element == null) {
     throw new Error("Given element is null or undefined");
   }
-
   if (element.type.match(oldType))
     element.type = newType;
   else 

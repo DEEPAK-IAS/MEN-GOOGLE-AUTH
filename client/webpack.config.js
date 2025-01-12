@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const pages = ["home", "signin", "signup", "show", "header.component"];
+const pages = ["home", "signin", "signup", "show"];
 
 module.exports = {
   entry: pages.reduce((entries, page) => {

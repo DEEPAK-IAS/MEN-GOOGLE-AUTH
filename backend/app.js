@@ -18,9 +18,6 @@ mongodb.connect();
 app.use(express.json());
 app.use(cors({
   origin: "http://localhost:3000",
-  methods: ["GET", "POST", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type"],
-  credentials: true
 }));
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY,

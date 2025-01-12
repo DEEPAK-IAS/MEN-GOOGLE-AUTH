@@ -6,7 +6,6 @@
     <title>Signup</title>
 </head>
 <body>
-  {{HEADER}}
     <div class="main-container">
       <div class="container">
         <form>
@@ -14,7 +13,7 @@
                 <h1>SignUp</h1>
                 <img id="user-image" alt="image">
                 <input type="file" id="file-input" name="avatar" hidden>
-                <img src="" alt="" class="camera-icon">
+                <img src="../assets/images/camera.png" alt="err" class="camera-icon">
             </div>
             <div class="input-group-container">
                 <div class="input-group">
@@ -31,13 +30,13 @@
                   <input type="password" id="password" maxlength="22" required>
                   <label for="password">Password</label>
                   <div class="err-element"></div>
-                  <img src="" alt="" id="eye-icon">
+                  <img src="../assets/images/view.png" alt="err" id="eye-icon">
                 </div>
             </div>
         </form>
         <button type="button" class="btn" id="submit-btn">Sign Up</button>
         <a class="btn" id="google-sign-in" href="/google">
-          <img src="" alt="google" id="google-icon"> 
+          <img src="../assets/images/google-icon.png" alt="google" id="google-icon"> 
           Google
         </a>
         <div class="message">Already have an Account <a href="/signin">Signin</a></div>

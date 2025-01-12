@@ -2,6 +2,8 @@ const bcryptjs = require("bcryptjs");
 const errHandler = require("../utils/errorHandler");
 const User = require("../models/user.model");
 const upload = require("../config/multer.config.js");
+const path = require("path");
+const fs = require("fs");
 
 
 
@@ -60,7 +62,7 @@ async function updateUser(req, res, next) {
       email: req.body.email,
       password: req.body.password,
       avatar: req.body.avatar
-    }, {new: true});
+    });
 
     const { password:_, ...rest } = updatedUser._doc;
     res.status(200).json({
@@ -99,7 +101,7 @@ async function uploadAvatar(req, res, next) {
     if (err) return next(errHandler(500, err.message));
     if (req.file == undefined) return next(errHandler(400, "No File Selected"));
     const { originalname, filename} = req.file;
-    const downloadURL = `/api/v1/user/avatar/${filename.split("-")[0]}`;
+    const downloadURL = `/api/v1/user/download/avatar/${filename.split("-")[0]}`;
     res.status(200).json({
       success: true,
       message: "File uploaded successfully",
@@ -112,10 +114,29 @@ async function uploadAvatar(req, res, next) {
 } 
 
 
+async function downloadAvatar(req, res, next) {
+  try {
+    const avatarFilesDirPath = path.join(__dirname, "../uploads");
+    const fileNames = fs.readdirSync(avatarFilesDirPath);
+    for (let fileName of fileNames) {
+      if (fileName.includes(req.params.id)) {
+        return res.status(200).sendFile(path.join(avatarFilesDirPath, fileName));
+      }
+    }
+
+    return next(errorHandler(404, "File not found"));
+  } catch(err) {
+    next(err);
+  }
+}
+
+
+
 module.exports = {
   updateUser,
   deleteUser,
   getUsers,
   getSingleUser,
-  uploadAvatar
+  uploadAvatar,
+  downloadAvatar
 };

@@ -41,12 +41,11 @@ async function signIn(req, res, next) {
     if(!isValidPassword) return next(errorHandler(401, "Unauthorized..."));
     const access_token = jwt.sign({id: user.id}, process.env.JWT_SECRET_KEY);
     const {password:_, ...rest} = user._doc;
-    res.cookie("access_token", access_token, {httpOnly: true}).status(200).json({
-      success: true,
-      data: {
-        user: rest
-      }
-    });
+    res.status(200).cookie("access_token", access_token)
+     .cookie("user_info", JSON.stringify(rest))
+     .json({
+      success: true
+     })
   } catch(err) {
     next(err);
   }
@@ -83,7 +82,7 @@ async function googleSignin(req, res, next) {
   const access_token = jwt.sign({id: req.user._id},process.env.JWT_SECRET_KEY);
   const {password:_, ...userInfo} = req.user;
   res.status(200).cookie("access_token", access_token)
-     .cookie("userInfo", JSON.stringify(userInfo))
+     .cookie("user_info", JSON.stringify(userInfo))
      .redirect("/");
 }
 

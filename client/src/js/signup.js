@@ -1,8 +1,10 @@
 import cameraIcon from "../assets/images/camera.png";
 import userAvatar from "../assets/images/avatar.png";
-import showIcon from "../assets/images/icons/view.png";
-import hideIcon from "../assets/images/icons/hide.png";
+import showIcon from "../assets/images/view.png";
+import hideIcon from "../assets/images/hide.png";
 import googleIMG from "../assets/images/google-icon.png";
+import loadHeader from "./header.component";
+import "../styles/header.component.css";
 import "../styles/signup.css";
 import { addValidationListeners } from "./utils/common.js";
 import {
@@ -12,7 +14,9 @@ import {
   validateEmailAndUpdateUI,
   validatePasswordAndUpdateUI,
 } from "./utils/userInterface.js";
-console.log(hideIcon);
+
+
+
 const userIMG = document.getElementById("user-image");
 const cameraIconDiv = document.querySelector(".camera-icon");
 const imgFileInput = document.getElementById("file-input");
@@ -24,6 +28,7 @@ const nameInput = signinFrom.querySelector("#name");
 const emailInput = signinFrom.querySelector("#email");
 const passwordInput = signinFrom.querySelector("#password");
 
+loadHeader();
 signinFrom.reset();
 eyeIcon.src = showIcon;
 googleIcon.src = googleIMG;
@@ -55,9 +60,7 @@ imgFileInput.addEventListener("change", async () => {
 
 submitBTN.addEventListener("click", async (e) => {
   e.preventDefault();
-  console.log("Button clicked");
   try {
-    console.log("Starting request");
     const formData = new FormData();
     const file = imgFileInput.files[0];
     formData.append("avatar", file);
@@ -66,6 +69,10 @@ submitBTN.addEventListener("click", async (e) => {
       body: formData,
     });
     const data = await imgRes.json();
+
+    const imageRes = await fetch(data.file.downloadURL);
+    console.log(imageRes);
+
     const res = await fetch("/api/v1/auth/signup", {
       method: "POST",
       headers: {
@@ -75,7 +82,7 @@ submitBTN.addEventListener("click", async (e) => {
         username: nameInput.value.trim(),
         email: emailInput.value.trim(),
         password: passwordInput.value.trim(),
-        avatar: data.file.downloadURL,
+        avatar: imageRes.url,
       }),
     });
     const resData = await res.json();

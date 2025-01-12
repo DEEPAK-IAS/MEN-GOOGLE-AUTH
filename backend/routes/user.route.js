@@ -1,6 +1,6 @@
 const express = require("express");
 const verifiToken = require("../utils/verifyToken");
-const {getUsers, updateUser, deleteUser, getSingleUser, uploadAvatar} = require("../controllers/user.controller")
+const {getUsers, updateUser, deleteUser, getSingleUser, uploadAvatar, downloadAvatar} = require("../controllers/user.controller")
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.patch("/:id", verifiToken, updateUser)
       .get("/all", getUsers)
       .get("/:id",getSingleUser)
       .post("/upload", uploadAvatar)
+      .get("/download/avatar/:id", downloadAvatar);
 
 
 
