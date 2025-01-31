@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+</head>
+<body>
+  
+  <div class="background-style"></div>
+  <div class="main-container">
+    <div class="profile-card">
+      <img src="" alt="" class="profile-image">
+      <input type="file" style="display: none;" id="profile-input">
+      <div>
+        <h1 class="profile-name">Deepak surya</h1>  
+        <input type="text" id="user-name"> 
+        <span>🖉</span>
+      </div>
+      <h2 class="profile-email">deepaksurya@gmail.com</h2>
+      <div class="btn-container">
+        <button class="edit btn" type="button" >Edit</button>
+        <a class="logout btn" href="/api/v1/auth/signout">logout</a>
+      </div>
+      <a href="/reset-password" class="reset-password-btn btn">reset password</a>
+    </div>
+  </div>
+
+  <form class="password-form">
+    <div class="input-group-container">
+      <div class="input-group">
+        <input type="password" id="password" required>
+        <label for="password">password</label>
+        <div class="err-element"></div>
+        <img src="../assets/images/view.png" alt="visible" id="eye-icon">
+      </div>
+      <div class="handle-otp">
+        <a href="/reset-password" class="reset">reset Password?</a>
+        <button class="btn submit" type="button">Submit</button>
+      </div>
+    </div>
+  </form>
+
+</body>
+</html>

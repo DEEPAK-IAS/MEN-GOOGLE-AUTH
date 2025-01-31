@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const pages = ["home", "signin", "signup", "show"];
+const pages = ["home", "signin", "signup", "show", "profile", "resetPassword"];
 
 module.exports = {
   entry: pages.reduce((entries, page) => {
@@ -65,6 +65,8 @@ module.exports = {
         { from: /^\/signin$/, to: '/signin.html' },
         { from: /^\/signup$/, to: '/signup.html' },
         { from: /^\/show$/, to: '/show.html' },
+        { from: /^\/profile$/, to: '/profile.html' },
+        { from: /^\/reset-password$/, to: '/resetPassword.html' },
       ],
     },
   }

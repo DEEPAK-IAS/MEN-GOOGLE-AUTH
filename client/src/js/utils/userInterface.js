@@ -36,6 +36,18 @@ export function setBorder(element, cssValue) {
   element.style.border = cssValue;
 }
 
+
+export function moveToNext(current, nextId) {
+  if (current.value.length == 1) {
+      const nextInput = document.getElementById(nextId);
+      if (nextInput) {
+          nextInput.focus();
+      }
+  }
+}
+
+
+
 export function validateNameAndUpdateUI(e) {
   const name = e.target.value;
   const { isValid, message } = validator.isValidName(name);

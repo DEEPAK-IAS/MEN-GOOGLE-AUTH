@@ -8,9 +8,9 @@ const router = express.Router();
 router.patch("/:id", verifiToken, updateUser)
       .delete("/:id", verifiToken, deleteUser)
       .get("/all", getUsers)
-      .get("/:id",getSingleUser)
+      .get("/download/avatar/:id", downloadAvatar)
       .post("/upload", uploadAvatar)
-      .get("/download/avatar/:id", downloadAvatar);
+      .post("/:id",getSingleUser);
 
 
 

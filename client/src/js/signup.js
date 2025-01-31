@@ -20,7 +20,7 @@ import {
 const userIMG = document.getElementById("user-image");
 const cameraIconDiv = document.querySelector(".camera-icon");
 const imgFileInput = document.getElementById("file-input");
-const submitBTN = document.querySelector("#submit-btn");
+const signupBTN = document.querySelector("#submit-btn");
 const signinFrom = document.forms[0];
 const googleIcon = document.querySelector("#google-icon");
 const eyeIcon = signinFrom.querySelector("#eye-icon");
@@ -47,7 +47,7 @@ cameraIconDiv.addEventListener("click", () => {
   imgFileInput.click();
 });
 
-imgFileInput.addEventListener("change", async () => {
+imgFileInput.addEventListener("change", async (e) => {
   const file = imgFileInput.files[0];
   if (file) {
     const reader = new FileReader();
@@ -58,7 +58,7 @@ imgFileInput.addEventListener("change", async () => {
   }
 });
 
-submitBTN.addEventListener("click", async (e) => {
+signupBTN.addEventListener("click", async (e) => {
   e.preventDefault();
   try {
     const formData = new FormData();
@@ -69,10 +69,8 @@ submitBTN.addEventListener("click", async (e) => {
       body: formData,
     });
     const data = await imgRes.json();
-
+    console.log(data)
     const imageRes = await fetch(data.file.downloadURL);
-    console.log(imageRes);
-
     const res = await fetch("/api/v1/auth/signup", {
       method: "POST",
       headers: {
@@ -87,7 +85,12 @@ submitBTN.addEventListener("click", async (e) => {
     });
     const resData = await res.json();
     console.log(resData);
+    if(resData.success == true) {
+      window.location.href = "/signin";
+    }
   } catch (err) {
     console.log(err);
   }
 });
+
+
